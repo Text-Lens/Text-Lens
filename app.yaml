@@ -1,0 +1,7 @@
+runtime: python3.9
+entrypoint: gunicorn -b :$PORT app:app
+
+env_variables:
+  GCP_PROJECT_ID: "textlens-448219"
+  GCP_LOCATION: "us-central1"
+  GOOGLE_APPLICATION_CREDENTIALS: ""C:\Users\rimen\dev\web_projects\Text-Lens.github.io\textlens-448219-bb76ddb436f1.json""

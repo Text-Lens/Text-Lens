@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarizer</title>
+</head>
+<body>
+    <h1>Text Summarizer</h1>
+
+    <!-- Form to input text for summarization -->
+    <form id="summarizeForm">
+        <label for="inputText">Enter text to summarize:</label><br>
+        <textarea id="inputText" name="inputText" rows="4" cols="50" required></textarea><br><br>
+        <input type="submit" value="Summarize">
+    </form>
+
+    <h2>Summary:</h2>
+    <p id="summaryOutput"></p>
+
+    <script>
+        // Handle form submission via JavaScript (AJAX)
+        document.getElementById('summarizeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from reloading the page
+            
+            let inputText = document.getElementById('inputText').value;
+
+            // Send the input text to the backend (Flask or another server-side handler)
+            fetch('/summarize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ inputText: inputText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the summarized text in the HTML page
+                document.getElementById('summaryOutput').textContent = data.summary;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
