@@ -19,6 +19,6 @@ submitBtn.addEventListener('click', () => {
             displayText.textContent = `Vous avez saisi : ${userInput}`;
         }, 2000);
     } else {
-        alert("Veuillez saisir du texte !");
+        displayText.textContent = `PLEASE ENTER YOUR TEXT`;
     }
 });
