@@ -10,6 +10,7 @@
     <!-- <meta http-equiv="refresh" content="20"> --> 
      
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Police Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -17,11 +18,26 @@
 </head>
 <body>
     <div class="content">
+        
         <div class="header"> 
             <h1> Welcome to Text lens </h1>
         </div>
+        <!-- Boîte de saisie -->
+        <div class="input-box">
+            <input type="text" id="textInput" placeholder="Type your text here...">
+            <div class="loader" id="loader"></div>
+        </div>
+        <!-- Bouton d'action -->
+        <button id="submitBtn">Submit</button>
+
+        <!-- Zone d'affichage du texte saisi -->
+        <p id="displayText"></p>
+        
     </div>
-   
+
+    <!-- Lien vers le fichier JavaScript -->
+    <script src="script.js"></script>
+    
 </body>
 
 </html>
