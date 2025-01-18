@@ -21,7 +21,7 @@ def summarize():
     # Initialize the client
     client = genai.Client(
         vertexai=True,
-        project="textlens-448219",
+        project="project_id",
         location="us-central1"
     )
 
