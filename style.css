@@ -63,7 +63,7 @@ body{
     100% { transform: rotate(360deg); }
 }
 
-/* Bouton de soumission */
+/* Bouton pour Summary */
 button {
     padding: 10px 20px;
     border: none;
