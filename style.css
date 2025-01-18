@@ -75,11 +75,6 @@ button {
     transition: background-color 0.3s;
 }
 
-/* Effet de survol sur le bouton */
-button:hover {
-    background-color: #fff;
-    color: #000;
-} 
 
 /* Zone d'affichage du texte */
 #displayText {
