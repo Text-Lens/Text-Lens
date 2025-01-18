@@ -68,17 +68,17 @@ button {
     padding: 10px 20px;
     border: none;
     border-radius: 20px;
-    background-color: rgb(255, 255, 255);
-    color: black;
+    background-color: #fff;
+    color: #000;
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-/* Effet de survol sur le bouton */
+/* Effet de survol sur le bouton 
 button:hover {
-    background-color: #5752d6;
-}
+    background-color: #fff;
+} */
 
 /* Zone d'affichage du texte */
 #displayText {
