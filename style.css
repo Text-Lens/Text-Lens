@@ -13,9 +13,9 @@ h1 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700; 
     
-    /* Centrage avec Flexbox */
     display: flex; /* Active Flexbox */
     justify-content: center; /* Centre le contenu horizontalement */
     align-items: center; /* Centre le contenu verticalement */
-    height: 100vh; /* Assure que le div prend toute la hauteur de la fenêtre */
+    height: 100vh; /* La div prend toute la hauteur de la fenêtre */
+    text-align: center; /* Centre le texte à l'intérieur de la div */
 }
