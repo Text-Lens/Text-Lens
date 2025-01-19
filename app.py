@@ -13,12 +13,15 @@ else:
     print("API key not found!")
 # Function for summarizing text
 def summarize_text(text):
-    response = openai.Completion.create(
-        model="gpt-3.5-turbo",
-        prompt=f"Summarize this: {text}",
-        max_tokens=150
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",  # or any other chat model you're using
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": text}
+        ]
     )
-    return response.choices[0].text.strip()
+    return response['choices'][0]['message']['content']
+
 
 # Function for generating multiple-choice questions
 def generate_questions(text):
