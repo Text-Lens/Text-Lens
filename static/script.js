@@ -1,3 +1,4 @@
+/*
 // Récupération des éléments
 const submitBtn = document.getElementById('submitBtn');
 const textInput = document.getElementById('textInput');
@@ -22,3 +23,4 @@ submitBtn.addEventListener('click', () => {
         displayText.textContent = `PLEASE ENTER YOUR TEXT`;
     }
 });
+*/

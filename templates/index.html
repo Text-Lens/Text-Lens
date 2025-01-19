@@ -42,18 +42,17 @@
     
             <input type="radio" id="test_yourself" name="action" value="test_yourself" required>
             <label for="test_yourself">Test Yourself</label><br><br>
+            <!-- Bouton d'action -->
+            <button type="submit" id="submitBtn">Submit</button>
         </form>
-    
-        <!-- Bouton d'action -->
-        <button type="submit" id="submitBtn">Submit</button>
-
-        <!-- Zone d'affichage du texte saisi -->
-        <p id="displayText"></p>
-        
         {% if result %}
             <h2>AI Response:</h2>
             <p>{{ result }}</p>
         {% endif %}
+        
+        <!-- Zone d'affichage du texte saisi -->
+        <p id="displayText"></p>
+    
 
     </div>
 
