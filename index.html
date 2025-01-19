@@ -31,16 +31,30 @@
             <h1> Welcome to Text lens </h1>
         </div>
         <!-- Boîte de saisie -->
-        <div class="input-box">
-            <input type="text" id="textInput" placeholder="Type your text here...">
-            <div class="loader" id="loader"></div>
-        </div>
+        <form method="POST">
+            <div class="input-box">
+                <label for="text">Enter text:</label><br>
+                <textarea name="text" id="text" rows="5" cols="40" required></textarea><br><br>
+                <div class="loader" id="loader"></div>
+            </div>
+            <input type="radio" id="summarize" name="action" value="summarize" required>
+            <label for="summarize">Summarize</label><br>
+    
+            <input type="radio" id="test_yourself" name="action" value="test_yourself" required>
+            <label for="test_yourself">Test Yourself</label><br><br>
+        </form>
+    
         <!-- Bouton d'action -->
-        <button id="submitBtn">Summarize text</button>
+        <button type="submit" id="submitBtn">Submit</button>
 
         <!-- Zone d'affichage du texte saisi -->
         <p id="displayText"></p>
         
+        {% if result %}
+            <h2>AI Response:</h2>
+            <p>{{ result }}</p>
+        {% endif %}
+
     </div>
 
     <!-- Lien vers le fichier JavaScript -->
