@@ -6,7 +6,10 @@ body{
     font-family: Arial, sans-serif; /* Police par défaut */
 }
 
-
+body.night-mode {
+    background: #121212 !important; /* Override gradient with solid black background */
+    color: white; /* Ensure text is visible in night mode */
+}
 
 /* Conteneur principal centré */
 .content {
@@ -15,6 +18,18 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.content.night-mode {
+    background-color: #121212; /* Black background */
+    color: white; /* Text becomes white */
 }
 
 .header {
@@ -43,6 +58,15 @@ body{
     outline: none;
     flex: 1;
     font-size: 14px;
+}
+
+.input-box.night-mode {
+    background-color: #121212;
+    color:white;
+}
+
+#enter_text {
+    color:black;
 }
 
 /* Loader animé */
