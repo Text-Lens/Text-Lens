@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>TextLens</title>
+    <title>TextLens</title> 
+
     <link rel="stylesheet" href="/static/style.css">
+
     <meta name="keywords" content="TextLens, textlens, Textlens, Tokam Judicael">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->  
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <link rel="manifest" href="favicon/site.webmanifest">
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             line-height: 1.8;
             background-color: #f4f4f9;
-            transition: background-color 0.3s;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto;
+            color: black;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .content {
@@ -27,25 +38,56 @@
             border-radius: 10px;
             background-color: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
         }
 
-        .highlight {
-            background-color: yellow;
-            color: black;
-            padding: 4px;
-            border-radius: 4px;
-            font-size: 1.2em;
-            transition: background-color 0.3s, font-size 0.3s ease;
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .highlight:hover {
-            background-color: orange;
-            transform: scale(1.05);
+        .input-box {
+            margin-bottom: 20px;
         }
 
-        .dimmed {
-            opacity: 0.5;
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .controls input[type="range"] {
+            width: 50%;
+        }
+
+        .timer {
+            background-color: #28a745;
+        }
+
+        .timer-output {
+            margin-top: 20px;
+            font-size: 1.5em;
+            text-align: center;
         }
 
         .night-mode {
@@ -53,147 +95,81 @@
             color: white;
         }
 
-        .font-size-selector, .controls {
-            margin: 20px;
-            text-align: center;
+        .highlight {
+            background-color: yellow;
+            color: black;
+            padding: 4px;
+            border-radius: 4px;
         }
 
-        .timer {
-            font-size: 1.2em;
-            color: #333;
-            background-color: #28a745;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .pomodoro-btn {
-            margin-top: 20px;
-            font-size: 1.1em;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-        }
-
-        .timer-output {
-            margin-top: 20px;
-            font-size: 1.5em;
-            color: #333;
-        }
-
-        .voice-controls button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border-radius: 5px;
+        .highlight:hover {
+            background-color: orange;
         }
     </style>
 </head>
 <body>
     <div class="content">
-        <div class="header">
-            <h1>Welcome to TextLens</h1>
+        <div class="header"> 
+            <h1> Welcome to TextLens </h1>
         </div>
+
+        <!-- Input Form -->
         <form method="POST">
             <div class="input-box">
                 <label for="text">Enter text:</label><br>
-                <textarea name="text" id="text" rows="5" cols="40" required></textarea><br><br>
-                <div class="loader" id="loader"></div>
+                <textarea name="text" id="text" rows="5" required></textarea><br>
+                <input type="radio" id="summarize" name="action" value="summarize" required>
+                <label for="summarize">Summarize</label><br>
+                <input type="radio" id="test_yourself" name="action" value="test_yourself" required>
+                <label for="test_yourself">Test Yourself</label><br><br>
+                <button type="submit">Submit</button>
             </div>
-            <input type="radio" id="summarize" name="action" value="summarize" required>
-            <label for="summarize">Summarize</label><br>
-
-            <input type="radio" id="test_yourself" name="action" value="test_yourself" required>
-            <label for="test_yourself">Test Yourself</label><br><br>
-            <button type="submit" id="submitBtn">Submit</button>
         </form>
+
         {% if result %}
             <h2>AI Response:</h2>
             <p id="ai-response">{{ result }}</p>
         {% endif %}
 
+        <!-- Controls -->
         <div class="controls">
             <label for="font-size">Font Size:</label>
             <input type="range" id="font-size" min="14" max="30" value="16">
-            <button id="night-mode-toggle" class="timer">Toggle Night Mode</button>
-            <button id="highlight-toggle" class="timer">Highlight Focused Text</button>
+            <button id="night-mode-toggle">Toggle Night Mode</button>
+            <button id="highlight-toggle">Highlight AI Response</button>
         </div>
 
-        <div class="pomodoro-btn">Start Pomodoro Timer</div>
         <div class="timer-output" id="pomodoro-output"></div>
-
-        <div class="voice-controls">
-            <h3>Text-to-Speech Controls</h3>
-            <button id="start-voice" class="timer">Read Aloud</button>
-            <button id="pause-voice" class="timer">Pause Voice</button>
-        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const aiResponse = document.getElementById('ai-response');
             const body = document.body;
             const fontSizeSelector = document.getElementById('font-size');
             const nightModeToggle = document.getElementById('night-mode-toggle');
             const highlightToggle = document.getElementById('highlight-toggle');
-            const startPomodoroBtn = document.querySelector('.pomodoro-btn');
-            const pomodoroOutput = document.getElementById('pomodoro-output');
-            const startVoiceBtn = document.getElementById('start-voice');
-            const pauseVoiceBtn = document.getElementById('pause-voice');
-            const voiceMessage = new SpeechSynthesisUtterance();
-            let isPomodoroActive = false;
-            let pomodoroInterval;
-            let timeLeft = 25 * 60; // Pomodoro Timer
+            const aiResponse = document.getElementById('ai-response');
 
+            // Font size adjustment
             fontSizeSelector.addEventListener('input', (e) => {
                 if (aiResponse) {
                     aiResponse.style.fontSize = `${e.target.value}px`;
                 }
             });
 
+            // Night mode toggle
             nightModeToggle.addEventListener('click', () => {
                 body.classList.toggle('night-mode');
+                if (aiResponse) {
+                    aiResponse.style.color = body.classList.contains('night-mode') ? 'white' : 'black';
+                }
             });
 
+            // Highlight AI response
             highlightToggle.addEventListener('click', () => {
                 if (aiResponse) {
                     aiResponse.classList.toggle('highlight');
                 }
-            });
-
-            startPomodoroBtn.addEventListener('click', () => {
-                if (isPomodoroActive) {
-                    clearInterval(pomodoroInterval);
-                    startPomodoroBtn.textContent = 'Start Pomodoro Timer';
-                } else {
-                    pomodoroInterval = setInterval(updatePomodoroTimer, 1000);
-                    startPomodoroBtn.textContent = 'Stop Pomodoro Timer';
-                }
-                isPomodoroActive = !isPomodoroActive;
-            });
-
-            function updatePomodoroTimer() {
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                pomodoroOutput.textContent = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    clearInterval(pomodoroInterval);
-                    alert('Pomodoro session ended! Take a break.');
-                }
-            }
-
-            startVoiceBtn.addEventListener('click', () => {
-                if (aiResponse) {
-                    voiceMessage.text = aiResponse.innerText;
-                    window.speechSynthesis.speak(voiceMessage);
-                }
-            });
-
-            pauseVoiceBtn.addEventListener('click', () => {
-                window.speechSynthesis.cancel();
             });
         });
     </script>
