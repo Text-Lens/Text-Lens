@@ -3,35 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Text Interaction</title>
+    <title>Text Lens</title>
 </head>
 <body>
-    <h1>Welcome to AI Text Interaction</h1>
-    
-    <!-- Text Input Area -->
-    <form method="POST">
-        <textarea name="text" rows="10" cols="50" placeholder="Enter your text here...">{{ text }}</textarea><br><br>
-        
-        <!-- Buttons for actions -->
-        <button type="submit" name="summarize">Summarize</button>
-        <button type="submit" name="test-yourself">Test Yourself</button>
+    <h1>Text Lens: Summarizer & Quiz</h1>
+    <form action="/summarize" method="POST">
+        <textarea name="user-text" placeholder="Enter your text here..." rows="4" cols="50"></textarea><br><br>
+        <button type="submit" name="action" value="summarize">Summarize</button>
+        <button type="submit" name="action" value="test">Test Yourself</button>
     </form>
 
-    <!-- Error Message -->
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
+    {% if summary %}
+        <h2>Summary:</h2>
+        <p>{{ summary }}</p>
     {% endif %}
-    
-    <h2>Output:</h2>
-    <div>
-        <!-- Show Summary or Questions -->
-        {% if summary %}
-            <strong>Summary:</strong><br>{{ summary }}
-        {% endif %}
-        
-        {% if questions %}
-            <strong>Questions:</strong><br>{{ questions }}
-        {% endif %}
-    </div>
 </body>
 </html>
