@@ -1,17 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <title>TextLens</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <meta name="keywords" content="TextLens, textlens, Textlens, Tokam Judicael">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-    <link rel="manifest" href="favicon/site.webmanifest">
+    <title>Focus Read</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -82,6 +74,33 @@
             color: #333;
         }
 
+        .controls input[type="range"] {
+            width: 50%;
+        }
+
+        .highlighted-text {
+            font-weight: bold;
+        }
+
+        .collaboration-tools {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #ececec;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(26, 26, 26, 0.1);
+        }
+
+        .annotation {
+            border: 1px dashed #dacfcf;
+            padding: 10px;
+            background-color: #ececec;
+            margin-bottom: 15px;
+        }
+
+        .annotation:hover {
+            background-color: #f0f0f0;
+        }
+
         .voice-controls button {
             margin-top: 10px;
             padding: 10px;
@@ -93,76 +112,101 @@
 </head>
 <body>
     <div class="content">
-        <div class="header">
-            <h1>Welcome to TextLens</h1>
+        <h2>Ultimate Focus Reading Experience</h2>
+        <p>Welcome to the most advanced focus reading system. With AI, voice assistance, dynamic content adjustment, and collaboration features, we help you optimize your reading experience. Let's dive into the content!</p>
+        <p class="highlighted-text">Hi everyone, we are passionate with coding in many different languages, we solve problems. Our project demonstrate how technology can help too many people that suffer from ADHD or lack of focus for a long time to read small summaries with full information in a easy way, who won't like reading?</p>
+        <br>Created by professionals</br>
+    
+    
+
+    <div class="controls">
+        <label for="font-size">Font Size:</label>
+        <input type="range" id="font-size" min="14" max="30" value="16">
+        <button id="night-mode-toggle" class="timer">Toggle Night Mode</button>
+        <button id="voice-toggle" class="timer">Toggle Voice Narration</button>
+        <button id="highlight-toggle" class="timer">Highlight Focused Text</button>
+    </div>
+
+    <div class="pomodoro-btn">Start Pomodoro Timer</div>
+    <div class="timer-output" id="pomodoro-output"></div>
+
+    
+
+    <div class="collaboration-tools">
+        <h3>Collaborative Focus</h3>
+        <div class="annotation">
+            <h4>User 1 Comment</h4>
+            <p>This is an example of a collaborative comment. Users can discuss the text here.</p>
         </div>
-        <form method="POST">
-            <div class="input-box">
-                <label for="text">Enter text:</label><br>
-                <textarea name="text" id="text" rows="5" cols="40" required></textarea><br><br>
-                <div class="loader" id="loader"></div>
-            </div>
-            <input type="radio" id="summarize" name="action" value="summarize" required>
-            <label for="summarize">Summarize</label><br>
-
-            <input type="radio" id="test_yourself" name="action" value="test_yourself" required>
-            <label for="test_yourself">Test Yourself</label><br><br>
-            <button type="submit" id="submitBtn">Submit</button>
-        </form>
-        {% if result %}
-            <h2>AI Response:</h2>
-            <p id="ai-response">{{ result }}</p>
-        {% endif %}
-
-        <div class="controls">
-            <label for="font-size">Font Size:</label>
-            <input type="range" id="font-size" min="14" max="30" value="16">
-            <button id="night-mode-toggle" class="timer">Toggle Night Mode</button>
-            <button id="highlight-toggle" class="timer">Highlight Focused Text</button>
-        </div>
-
-        <div class="pomodoro-btn">Start Pomodoro Timer</div>
-        <div class="timer-output" id="pomodoro-output"></div>
-
-        <div class="voice-controls">
-            <h3>Text-to-Speech Controls</h3>
-            <button id="start-voice" class="timer">Read Aloud</button>
-            <button id="pause-voice" class="timer">Pause Voice</button>
+        <div class="annotation">
+            <h4>User 2 Comment</h4>
+            <p>This is another annotation where users can discuss any relevant points or thoughts.</p>
         </div>
     </div>
 
+
+
+    <div class="voice-controls">
+        <h3>Text-to-Speech Controls</h3>
+        <button id="start-voice" class="timer">Read Aloud</button>
+        <button id="pause-voice" class="timer">Pause Voice</button>
+    </div>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const aiResponse = document.getElementById('ai-response');
+            const paragraphs = document.querySelectorAll('.content p');
             const body = document.body;
             const fontSizeSelector = document.getElementById('font-size');
             const nightModeToggle = document.getElementById('night-mode-toggle');
+            const voiceToggle = document.getElementById('voice-toggle');
             const highlightToggle = document.getElementById('highlight-toggle');
             const startPomodoroBtn = document.querySelector('.pomodoro-btn');
             const pomodoroOutput = document.getElementById('pomodoro-output');
             const startVoiceBtn = document.getElementById('start-voice');
             const pauseVoiceBtn = document.getElementById('pause-voice');
             const voiceMessage = new SpeechSynthesisUtterance();
+            let isVoiceEnabled = false;
             let isPomodoroActive = false;
             let pomodoroInterval;
             let timeLeft = 25 * 60; // Pomodoro Timer
 
+
+
             fontSizeSelector.addEventListener('input', (e) => {
-                if (aiResponse) {
-                    aiResponse.style.fontSize = `${e.target.value}px`;
-                }
+                document.querySelectorAll('.content p').forEach(p => {
+                    p.style.fontSize = `${e.target.value}px`;
+                });
             });
 
+            // Night Mode 
             nightModeToggle.addEventListener('click', () => {
                 body.classList.toggle('night-mode');
             });
 
-            highlightToggle.addEventListener('click', () => {
-                if (aiResponse) {
-                    aiResponse.classList.toggle('highlight');
+            // Enable/Disable Voice
+            voiceToggle.addEventListener('click', () => {
+                isVoiceEnabled = !isVoiceEnabled;
+                voiceMessage.text = document.querySelector('.content p').innerText;
+                if (isVoiceEnabled) {
+                    window.speechSynthesis.speak(voiceMessage);
+                } else {
+                    window.speechSynthesis.cancel();
                 }
             });
 
+            // Highlight text
+            highlightToggle.addEventListener('click', () => {
+                paragraphs.forEach(p => p.classList.remove('highlight'));
+                paragraphs.forEach(p => p.classList.add('dimmed'));
+                paragraphs.forEach(p => {
+                    if (p === document.activeElement) {
+                        p.classList.add('highlight');
+                    }
+                });
+            });
+
+            // Pomodoro system
             startPomodoroBtn.addEventListener('click', () => {
                 if (isPomodoroActive) {
                     clearInterval(pomodoroInterval);
@@ -185,11 +229,11 @@
                 }
             }
 
+            // The Voice
             startVoiceBtn.addEventListener('click', () => {
-                if (aiResponse) {
-                    voiceMessage.text = aiResponse.innerText;
-                    window.speechSynthesis.speak(voiceMessage);
-                }
+                const text = document.querySelector('.content p').innerText;
+                voiceMessage.text = text;
+                window.speechSynthesis.speak(voiceMessage);
             });
 
             pauseVoiceBtn.addEventListener('click', () => {
@@ -198,4 +242,5 @@
         });
     </script>
 </body>
+
 </html>
