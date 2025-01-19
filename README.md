@@ -10,4 +10,4 @@ Adapt Text in any format, focus read, use ai to generate summaries and ask you q
   - In the focus read, there can be an option (with AI) that generates an image per sentence (for visual learners)
   - Text-to-Voice feature (for auditif learners)
 
-You can access our website through this link: https://text-lens.github.io/
+You can access our website through this link: https://textlens-8fc293616aa6.herokuapp.com/
