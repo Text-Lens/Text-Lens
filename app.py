@@ -1,5 +1,5 @@
-import openai
 import os
+import openai
 from flask import Flask, render_template, request
 
 # Initialize Flask app
@@ -7,7 +7,9 @@ app = Flask(__name__)
 
 # Set OpenAI API key
 openai_api_key = os.getenv("OPENAI_API_KEY")
-if openai_api_key is None:
+if openai_api_key:
+    print("API key found!")
+else:
     print("API key not found!")
 # Function for summarizing text
 def summarize_text(text):
