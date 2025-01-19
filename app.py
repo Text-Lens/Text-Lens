@@ -6,8 +6,9 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 # Set OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
+openai_api_key = os.getenv("OPENAI_API_KEY")
+if openai_api_key is None:
+    print("API key not found!")
 # Function for summarizing text
 def summarize_text(text):
     response = openai.Completion.create(
