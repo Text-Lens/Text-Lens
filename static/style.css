@@ -111,3 +111,7 @@ button:hover {
     font-size: 18px;
     color: #333;
 }
+
+.dimmed {
+    opacity: 0.5;
+}

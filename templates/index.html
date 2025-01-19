@@ -96,10 +96,7 @@
         }
 
         .highlight {
-            background-color: yellow;
-            color: black;
-            padding: 4px;
-            border-radius: 4px;
+            opacity:0.5;
         }
 
         .highlight:hover {
@@ -167,6 +164,7 @@
             highlightToggle.addEventListener('click', () => {
                 if (aiResponse) {
                     aiResponse.classList.toggle('highlight');
+                    aiResponse.classList.toggle('dimmed');
                 }
             });
         });
