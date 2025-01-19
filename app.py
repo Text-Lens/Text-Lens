@@ -13,12 +13,15 @@ else:
     print("API key not found!")
 # Function for summarizing text
 def summarize_text(text):
+    prompt = f"Please summarize the following text:\n\n{text}\n\nProvide a concise summary with the main points."
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",  # or any other chat model you're using
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "You are a helpful assistant. Please summarize the provided text."},
             {"role": "user", "content": text}
-        ]
+        ],
+        max_tokens=150,
+        temperature=0.5
     )
     return response['choices'][0]['message']['content']
 
