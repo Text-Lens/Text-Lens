@@ -1,63 +1,21 @@
-from flask import Flask, render_template, request
-from google.cloud import genai
-import os
+import openai
 
-# Initialize Flask app
-app = Flask(__name__)
+openai.api_key = "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"
 
-# Set up GenAI client
-client = genai.Client(
-    vertexai=True,
-    project="textlens-448219",  # Replace with your project ID
-    location="us-central1"
-)
-
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-@app.route('/summarize', methods=['POST'])
-def summarize():
-    user_text = request.form['user-text']
-
-    # Call GenAI API to summarize the text
-    summary = summarize_text(user_text)
-
-    return render_template('index.html', summary=summary)
-
-@app.route('/test', methods=['POST'])
-def test():
-    user_text = request.form['user-text']
-
-    # Generate questions using GenAI
-    questions, answers = generate_questions_from_text(user_text)
-    
-    return render_template('test.html', questions=questions, answers=answers)
-
+# Example summarization
 def summarize_text(text):
-    prompt = f"Summarize the following text:\n\n{text}"
-    
-    response = client.models.generate_content(
-        model="gemini-2.0-flash-exp", 
-        contents=[genai.types.Content(role="user", parts=[genai.types.Part(text=prompt)])]
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=f"Summarize this: {text}",
+        max_tokens=100
     )
-    
-    return response.candidates[0].content.parts[0].text.strip()
+    return response.choices[0].text.strip()
 
-def generate_questions_from_text(text):
-    prompt = f"Generate multiple-choice questions based on the following text:\n\n{text}"
-    
-    response = client.models.generate_content(
-        model="gemini-2.0-flash-exp", 
-        contents=[genai.types.Content(role="user", parts=[genai.types.Part(text=prompt)])]
+# Example question generation
+def generate_questions(text):
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=f"Generate multiple-choice questions about this text: {text}",
+        max_tokens=150
     )
-    
-    questions = response.candidates[0].content.parts[0].text.strip().split("\n")  # Assuming each question is on a new line
-    answers = [
-        ["Option 1", "Option 2", "Option 3", "Option 4"] for _ in questions
-    ]
-    
-    return questions, answers
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return response.choices[0].text.strip()
