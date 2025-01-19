@@ -16,7 +16,7 @@ def summarize_text(text):
     response = openai.Completion.create(
         model="gpt-3.5-turbo",
         prompt=f"Summarize this: {text}",
-        max_tokens=100
+        max_tokens=150
     )
     return response.choices[0].text.strip()
 
