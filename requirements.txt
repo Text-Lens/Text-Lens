@@ -3,6 +3,7 @@ click==8.1.8
 colorama==0.4.6
 Flask==3.1.0
 openai==0.27.4
+gunicorn==20.1.0
 itsdangerous==2.2.0
 Jinja2==3.1.5
 MarkupSafe==3.0.2
