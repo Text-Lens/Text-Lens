@@ -14,7 +14,7 @@ else:
 # Function for summarizing text
 def summarize_text(text):
     response = openai.Completion.create(
-        engine="text-davinci-003",
+        model="gpt-3.5-turbo",
         prompt=f"Summarize this: {text}",
         max_tokens=100
     )
